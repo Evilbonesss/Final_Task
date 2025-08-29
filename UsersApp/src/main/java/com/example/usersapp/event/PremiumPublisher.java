@@ -12,7 +12,8 @@ public class PremiumPublisher {
 
     /**
      * Регистрирует обработчик события.
-     * @param handler обработчик (обычно лямбда)
+     *
+     * @param handler обработчик
      */
     public void subscribe(PremiumEventHandler handler) {
         handlers.add(handler);
@@ -20,10 +21,9 @@ public class PremiumPublisher {
 
     /**
      * Уведомляет всех подписчиков и очищает список подписок.
-     * Повторные клики не повторяют вывод предыдущих подписчиков.
      */
     public void notifySubscribers() {
-        List<PremiumEventHandler> snapshot = new ArrayList<>(handlers);
+        var snapshot = new ArrayList<>(handlers);
         for (PremiumEventHandler h : snapshot) {
             h.handle(this);
         }
@@ -31,7 +31,8 @@ public class PremiumPublisher {
     }
 
     /**
-     * Возвращает текущее число подписчиков (диагностика/обучение).
+     * Возвращает текущее число подписчиков.
+     *
      * @return количество подписчиков
      */
     public int getSubscriberCount() {

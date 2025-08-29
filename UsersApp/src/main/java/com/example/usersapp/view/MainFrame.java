@@ -10,23 +10,17 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Главное окно приложения.
- */
 public class MainFrame extends JFrame {
 
     private final JButton createButton = new JButton("Создать пользователей");
     private final PremiumButton showPremiumButton = new PremiumButton();
     private final JTextArea output = new JTextArea(10, 40);
 
-    private final List<User> lastCreated = new ArrayList<>(); // - хпранение последней пятерки
-    private final UserFactory factory = new UserFactory(); // - генерация случайных пользователей
+    private final List<User> lastCreated = new ArrayList<>();
+    private final UserFactory factory = new UserFactory();
 
-    /**
-     * Создаёт и настраивает главное окно.
-     */
     public MainFrame() {
-        setTitle("UsersApp — Factory + Publisher/Subscriber + Lambdas");
+        setTitle("UsersApp — Factory + Pub/Sub + Lambdas");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setSize(600, 400);
@@ -43,22 +37,14 @@ public class MainFrame extends JFrame {
         createButton.addActionListener(e -> onCreateUsers());
     }
 
-    /**
-     * Создаёт 5 пользователей через фабрику и подписывает PREMIUM-пользователей
-     * на событие «Показать PREMIUM» с использованием лямбда-выражений.
-     */
     private void onCreateUsers() {
         output.append("— Создаём 5 пользователей…\n");
         lastCreated.clear();
 
         PremiumPublisher publisher = showPremiumButton.getPublisher();
-
-        for (int i = 0; i < 5; i++) {
-            User u = factory.createRandomUser();
+        for (User u : factory.createUsers(5)) {
             lastCreated.add(u);
-
             output.append("  • " + u.getUserType() + " — " + u.getName() + " (" + u.getEmail() + ")\n");
-
             if (u.getUserType() == UserType.PREMIUM) {
                 publisher.subscribe(src -> output.append(u.formatForOutput() + "\n"));
             }

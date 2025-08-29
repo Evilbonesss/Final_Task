@@ -1,16 +1,5 @@
 package com.example.usersapp.model;
 
-/**
- * Тип пользователя приложения. Используется для различения логики подписки и
- * отображения.
- */
 public enum UserType {
-    /**
-     * Обычный пользователь.
-     */
-    REGULAR,
-    /**
-     * Премиум-пользователь.
-     */
-    PREMIUM
+    REGULAR, PREMIUM
 }
